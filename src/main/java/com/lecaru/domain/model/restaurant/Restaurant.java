@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Field;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -30,4 +31,21 @@ public class Restaurant {
     private String telephone;
     @Embedded
     private Address address;
+
+    public void update(Restaurant restaurant) {
+
+        Field[] fields = Restaurant.class.getDeclaredFields();
+
+        for(Field field : fields) {
+            try {
+                Object newValue = field.get(restaurant);
+                if(newValue != null) {
+                    field.set(this, newValue);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

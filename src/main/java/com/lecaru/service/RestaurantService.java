@@ -5,6 +5,7 @@ import com.lecaru.domain.repository.RestaurantRepository;
 import com.lecaru.infra.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,28 +16,29 @@ public class RestaurantService implements CrudService<Restaurant, UUID> {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    @Override
+    @Transactional(readOnly = true)
     public List<Restaurant> findAll() {
         return restaurantRepository.findAll();
     }
 
-    @Override
+    @Transactional(readOnly = true)
     public Restaurant findById(UUID id) {
         return restaurantRepository.findById(id).orElseThrow(() -> new NotFoundException(Restaurant.class));
     }
 
-    @Override
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
 
-    @Override
+    @Transactional
     public Restaurant update(UUID id, Restaurant restaurant) {
-        restaurant.setId(id);
-        return restaurantRepository.save(restaurant);
+        var restaurantToUpdate = findById(id);
+        restaurantToUpdate.update(restaurant);
+        return restaurantToUpdate;
     }
 
-    @Override
+    @Transactional
     public void delete(UUID id) {
         var restaurant = findById(id);
         restaurantRepository.delete(restaurant);

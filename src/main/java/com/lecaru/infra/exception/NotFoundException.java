@@ -1,4 +1,4 @@
-package com.lecaru.infra;
+package com.lecaru.infra.exception;
 
 import java.io.Serial;
 

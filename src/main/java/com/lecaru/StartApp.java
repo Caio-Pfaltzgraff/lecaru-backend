@@ -19,7 +19,7 @@ public class StartApp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         var restaurant = new Restaurant(
-                null, "Barra Da Tijuca",
+                null, "Barra Tijuca",
                 LocalTime.of(11, 0),
                 LocalTime.of(15, 0),
                 LocalTime.of(11, 0),
