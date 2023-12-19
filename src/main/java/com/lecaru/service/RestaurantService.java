@@ -1,6 +1,7 @@
 package com.lecaru.service;
 
 import com.lecaru.domain.model.restaurant.Restaurant;
+import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import com.lecaru.domain.repository.RestaurantRepository;
 import com.lecaru.infra.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class RestaurantService implements CrudService<Restaurant, UUID> {
+public class RestaurantService implements CrudService<Restaurant, RestaurantDTO, UUID> {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -27,15 +28,15 @@ public class RestaurantService implements CrudService<Restaurant, UUID> {
     }
 
     @Transactional
-    public Restaurant save(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+    public Restaurant save(RestaurantDTO restaurant) {
+        return restaurantRepository.save(new Restaurant(restaurant));
     }
 
     @Transactional
-    public Restaurant update(UUID id, Restaurant restaurant) {
-        var restaurantToUpdate = findById(id);
-        restaurantToUpdate.update(restaurant);
-        return restaurantToUpdate;
+    public Restaurant update(UUID id, RestaurantDTO restaurantDTO) {
+        var restaurant = findById(id);
+        restaurant.update(new Restaurant(restaurantDTO));
+        return restaurant;
     }
 
     @Transactional

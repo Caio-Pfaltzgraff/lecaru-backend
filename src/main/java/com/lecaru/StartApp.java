@@ -1,8 +1,7 @@
 package com.lecaru;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.lecaru.domain.model.restaurant.Address;
-import com.lecaru.domain.model.restaurant.Restaurant;
+import com.lecaru.domain.model.restaurant.dto.AddressDTO;
+import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import com.lecaru.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,8 +17,8 @@ public class StartApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        var restaurant = new Restaurant(
-                null, "Barra Tijuca",
+        var restaurant = new RestaurantDTO(
+                "Barra da Tijuca",
                 LocalTime.of(11, 0),
                 LocalTime.of(15, 0),
                 LocalTime.of(11, 0),
@@ -29,7 +28,7 @@ public class StartApp implements CommandLineRunner {
                 LocalTime.of(18, 0),
                 LocalTime.of(0, 0),
                 "(21) 99090-9090",
-                new Address(
+                new AddressDTO(
                         "22640102",
                         "Avenida das Américas",
                         "Barra da Tijuca",

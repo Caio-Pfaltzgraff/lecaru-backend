@@ -1,7 +1,13 @@
 package com.lecaru.controller;
 
 import com.lecaru.domain.model.restaurant.Restaurant;
+import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import com.lecaru.service.RestaurantService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,25 +19,42 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurants")
+@Tag(name = "Restaurants Controller", description = "Rest-Controller for restaurants access.")
 public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
 
     @GetMapping
+    @Operation(summary = "Get All Restaurants", description = "Return list of all registered restaurants")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operation completed successfully")
+    })
     public ResponseEntity<List<Restaurant>> getAll() {
         var list = restaurantService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get Restaurant", description = "Returns data from a restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operation completed successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid Argument"),
+            @ApiResponse(responseCode = "404", description = "Restaurant not found")
+    })
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable UUID id) {
         var restaurant = restaurantService.findById(id);
         return ResponseEntity.ok(restaurant);
     }
 
     @PostMapping
-    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
+    @Operation(summary = "Create a new restaurant", description = "Register a new restaurant in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Restaurant registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Restaurant not registered successfully"),
+            @ApiResponse(responseCode = "409", description = "Data integrity violation error")
+    })
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody @Valid RestaurantDTO restaurant) {
         var restaurantSaved = restaurantService.save(restaurant);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -41,12 +64,24 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable UUID id, @RequestBody Restaurant restaurant) {
+    @Operation(summary = "Update restaurant", description = "Update a registered restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurant updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Restaurant not updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Restaurant not found"),
+            @ApiResponse(responseCode = "409", description = "Data integrity violation error")
+    })
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable UUID id, @RequestBody @Valid RestaurantDTO restaurant) {
         var restaurantUpdated = restaurantService.update(id, restaurant);
         return ResponseEntity.ok(restaurantUpdated);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete restaurant", description = "Delete a registered restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Restaurant deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Restaurant not found")
+    })
     public ResponseEntity<Void> deleteRestaurant(@PathVariable UUID id) {
         restaurantService.delete(id);
         return ResponseEntity.noContent().build();

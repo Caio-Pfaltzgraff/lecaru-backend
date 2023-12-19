@@ -1,11 +1,11 @@
 package com.lecaru.domain.model.restaurant;
 
+import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Field;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -32,20 +32,54 @@ public class Restaurant {
     @Embedded
     private Address address;
 
+    public Restaurant(RestaurantDTO restaurant) {
+        this.title = restaurant.title();
+        this.lunchOpenWeekdays = restaurant.lunchOpenWeekdays();
+        this.lunchCloseWeekdays = restaurant.lunchCloseWeekdays();
+        this.lunchOpenWeekends = restaurant.lunchOpenWeekends();
+        this.lunchCloseWeekends = restaurant.lunchCloseWeekends();
+        this.dinnerOpenWeekdays = restaurant.dinnerOpenWeekdays();
+        this.dinnerCloseWeekdays = restaurant.dinnerCloseWeekdays();
+        this.dinnerOpenWeekends = restaurant.dinnerOpenWeekends();
+        this.dinnerCloseWeekends = restaurant.dinnerCloseWeekends();
+        this.telephone = restaurant.telephone();
+        this.address = new Address(restaurant.address());
+    }
+
     public void update(Restaurant restaurant) {
 
-        Field[] fields = Restaurant.class.getDeclaredFields();
-
-        for(Field field : fields) {
-            try {
-                Object newValue = field.get(restaurant);
-                if(newValue != null) {
-                    field.set(this, newValue);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+        if (restaurant.title != null) {
+            this.title = restaurant.title;
         }
-
+        if (restaurant.lunchOpenWeekdays != null) {
+            this.lunchOpenWeekdays = restaurant.lunchOpenWeekdays;
+        }
+        if (restaurant.lunchCloseWeekdays != null) {
+            this.lunchCloseWeekdays = restaurant.lunchCloseWeekdays;
+        }
+        if (restaurant.lunchOpenWeekends != null) {
+            this.lunchOpenWeekends = restaurant.lunchOpenWeekends;
+        }
+        if (restaurant.lunchCloseWeekends != null) {
+            this.lunchCloseWeekends = restaurant.lunchCloseWeekends;
+        }
+        if (restaurant.dinnerOpenWeekdays != null) {
+            this.dinnerOpenWeekdays = restaurant.dinnerOpenWeekdays;
+        }
+        if (restaurant.dinnerCloseWeekdays != null) {
+            this.dinnerCloseWeekdays = restaurant.dinnerCloseWeekdays;
+        }
+        if (restaurant.dinnerOpenWeekends != null) {
+            this.dinnerOpenWeekends = restaurant.dinnerOpenWeekends;
+        }
+        if (restaurant.dinnerCloseWeekends != null) {
+            this.dinnerCloseWeekends = restaurant.dinnerCloseWeekends;
+        }
+        if (restaurant.telephone != null) {
+            this.telephone = restaurant.telephone;
+        }
+        if (restaurant.address != null) {
+            address.update(address);
+        }
     }
 }

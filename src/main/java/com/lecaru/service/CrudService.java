@@ -2,10 +2,10 @@ package com.lecaru.service;
 
 import java.util.List;
 
-public interface CrudService<T, ID> {
+public interface CrudService<T, D, ID> {
     List<T> findAll();
     T findById(ID id);
-    T save(T entity);
-    T update(ID id, T entity);
+    T save(D dto);
+    T update(ID id, D dto);
     void delete(ID id);
 }
