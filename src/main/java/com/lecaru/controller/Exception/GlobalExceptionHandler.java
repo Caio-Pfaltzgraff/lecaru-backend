@@ -52,6 +52,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.send(message));
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNoResourceFound(NoResourceFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage.send(ex.getMessage()));
+    }
+
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<Map<String, String>> handleUnexpectedException(Throwable unexpectedException) {
         String message = "Ocorreu um erro inesperado do sistema.";
