@@ -1,6 +1,7 @@
 package com.lecaru.controller.v1;
 
 import com.lecaru.domain.model.product.Product;
+import com.lecaru.domain.model.product.ProductAdminReadDTO;
 import com.lecaru.domain.model.product.ProductDTO;
 import com.lecaru.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,9 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/products")
 @Tag(name = "V1 Products Controller", description = "Admin Product Access Controller.")
@@ -29,8 +32,11 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation completed successfully")
     })
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<ProductAdminReadDTO>> getAllProducts() {
+        var dtos = new ArrayList<ProductAdminReadDTO>();
+        productService.findAll().forEach((product) -> dtos.add(new ProductAdminReadDTO(product.getId(), product.getTitle())));
+
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")

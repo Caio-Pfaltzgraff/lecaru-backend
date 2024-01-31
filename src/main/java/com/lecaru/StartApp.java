@@ -60,6 +60,16 @@ public class StartApp implements CommandLineRunner {
                 "Carnes",
                 type.id()
         ));
+        var product2 = productService.save(new ProductDTO(
+                "Filé de Frango",
+                "Filé Mignon com fritas e arroz a piamontese",
+                "src/assets/products/file-mignon.png",
+                600,
+                2,
+                new BigDecimal("60.00"),
+                "Carnes",
+                type.id()
+        ));
         System.out.println("---------------------------------------------");
         System.out.println(product.toString());
         System.out.println("---------------------------------------------");

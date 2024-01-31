@@ -29,7 +29,7 @@ public class Product {
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
 
-    public void update(ProductDTO dto, SubCategory categoryType) {
+    public void update(ProductDTO dto, SubCategory subCategory) {
         if(dto.title() != null) {
             this.title = dto.title();
         }
@@ -51,8 +51,8 @@ public class Product {
         if(dto.category() != null) {
             this.category = dto.category();
         }
-        if(categoryType != null) {
-            this.subCategory = categoryType;
+        if(subCategory != null) {
+            this.subCategory = subCategory;
         }
     }
 }
