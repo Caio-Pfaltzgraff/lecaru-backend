@@ -1,12 +1,12 @@
 package com.lecaru;
 
-import com.lecaru.domain.model.product.dto.CategoryTypeDTO;
-import com.lecaru.domain.model.product.dto.ProductDTO;
+import com.lecaru.domain.model.subcategory.SubCategoryDTO;
+import com.lecaru.domain.model.product.ProductDTO;
 import com.lecaru.domain.model.restaurant.dto.AddressDTO;
 import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import com.lecaru.service.ProductService;
 import com.lecaru.service.RestaurantService;
-import com.lecaru.service.CategoryTypeService;
+import com.lecaru.service.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class StartApp implements CommandLineRunner {
     private RestaurantService service;
 
     @Autowired
-    private CategoryTypeService categoryTypeService;
+    private SubCategoryService subCategoryService;
 
     @Autowired
     private ProductService productService;
@@ -49,7 +49,7 @@ public class StartApp implements CommandLineRunner {
                         4666
                 ));
         service.save(restaurant);
-        var type = categoryTypeService.save(new CategoryTypeDTO(null,"Bovinas", 1L)).toDTO();
+        var type = subCategoryService.save(new SubCategoryDTO(null,"Bovinas", 1L)).toDTO();
         var product = productService.save(new ProductDTO(
                 "Filé Mignon",
                 "Filé Mignon com fritas e arroz a piamontese",

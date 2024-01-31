@@ -1,7 +1,7 @@
-package com.lecaru.controller;
+package com.lecaru.controller.v1;
 
 import com.lecaru.domain.model.product.Product;
-import com.lecaru.domain.model.product.dto.ProductDTO;
+import com.lecaru.domain.model.product.ProductDTO;
 import com.lecaru.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
-@Tag(name = "Products Controller", description = "Rest-Controller for Products access.")
+@RequestMapping("/api/v1/products")
+@Tag(name = "V1 Products Controller", description = "Admin Product Access Controller.")
 public class ProductController {
 
     @Autowired

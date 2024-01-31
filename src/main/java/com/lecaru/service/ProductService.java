@@ -1,7 +1,7 @@
 package com.lecaru.service;
 
 import com.lecaru.domain.model.product.Product;
-import com.lecaru.domain.model.product.dto.ProductDTO;
+import com.lecaru.domain.model.product.ProductDTO;
 import com.lecaru.domain.repository.ProductRepository;
 import com.lecaru.infra.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class ProductService implements CrudService<Product, ProductDTO, UUID>{
     private ProductRepository productRepository;
 
     @Autowired
-    private CategoryTypeService categoryTypeService;
+    private SubCategoryService subCategoryService;
 
     @Transactional(readOnly = true)
     public List<Product> findAll() {
@@ -32,7 +32,7 @@ public class ProductService implements CrudService<Product, ProductDTO, UUID>{
 
     @Transactional
     public Product save(ProductDTO dto) {
-        var categoryType = categoryTypeService.findById(dto.categoryTypeId());
+        var categoryType = subCategoryService.findById(dto.subCategoryId());
         var product = new Product(null, dto.title(), dto.description(), dto.photo(), dto.size(), dto.serving(), dto.price(), dto.category(), categoryType);
         return productRepository.save(product);
     }
@@ -40,7 +40,7 @@ public class ProductService implements CrudService<Product, ProductDTO, UUID>{
     @Transactional
     public Product update(UUID id, ProductDTO dto) {
         var productUpdated = findById(id);
-        var categoryType = categoryTypeService.findById(dto.categoryTypeId());
+        var categoryType = subCategoryService.findById(dto.subCategoryId());
         productUpdated.update(dto, categoryType);
         return productUpdated;
     }

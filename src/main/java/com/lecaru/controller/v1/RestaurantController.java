@@ -1,4 +1,4 @@
-package com.lecaru.controller;
+package com.lecaru.controller.v1;
 
 import com.lecaru.domain.model.restaurant.Restaurant;
 import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/restaurants")
-@Tag(name = "Restaurants Controller", description = "Rest-Controller for restaurants access.")
+@RequestMapping("/api/v1/restaurants")
+@Tag(name = "V1 Restaurants Controller", description = "Admin Restaurant Access Controller.")
 public class RestaurantController {
 
     @Autowired

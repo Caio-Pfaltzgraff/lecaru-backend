@@ -1,9 +1,9 @@
-package com.lecaru.domain.model.product.dto;
+package com.lecaru.domain.model.subcategory;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CategoryTypeDTO(
+public record SubCategoryDTO(
         Long id,
         @NotBlank
         String name,

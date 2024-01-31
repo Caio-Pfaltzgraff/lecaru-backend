@@ -1,6 +1,6 @@
 package com.lecaru.domain.model.product;
 
-import com.lecaru.domain.model.product.dto.ProductDTO;
+import com.lecaru.domain.model.subcategory.SubCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,10 +26,10 @@ public class Product {
     private BigDecimal price;
     private String category;
     @ManyToOne
-    @JoinColumn(name = "categoryType_id")
-    private CategoryType categoryType;
+    @JoinColumn(name = "subCategory_id")
+    private SubCategory subCategory;
 
-    public void update(ProductDTO dto, CategoryType categoryType) {
+    public void update(ProductDTO dto, SubCategory categoryType) {
         if(dto.title() != null) {
             this.title = dto.title();
         }
@@ -52,7 +52,7 @@ public class Product {
             this.category = dto.category();
         }
         if(categoryType != null) {
-            this.categoryType = categoryType;
+            this.subCategory = categoryType;
         }
     }
 }
