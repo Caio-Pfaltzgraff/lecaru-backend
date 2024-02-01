@@ -17,16 +17,16 @@ import lombok.ToString;
 public class SubCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String title;
     private Long categoryId;
 
     public SubCategoryDTO toDTO() {
-        return new SubCategoryDTO(id, name, categoryId);
+        return new SubCategoryDTO(id, title, categoryId);
     }
 
     public void update(SubCategory subCategory) {
-        if(subCategory.name != null) {
-            this.name = subCategory.getName();
+        if(subCategory.title != null) {
+            this.title = subCategory.getTitle();
         }
         if(subCategory.categoryId != null) {
             this.categoryId = subCategory.getCategoryId();

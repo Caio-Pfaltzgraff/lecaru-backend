@@ -28,13 +28,13 @@ public class SubCategoryService implements CrudService<SubCategory, SubCategoryD
 
     @Transactional
     public SubCategory save(SubCategoryDTO dto) {
-        return categoryTypeRepository.save(new SubCategory(null, dto.name(), dto.categoryId()));
+        return categoryTypeRepository.save(new SubCategory(null, dto.title(), dto.categoryId()));
     }
 
     @Transactional
     public SubCategory update(Long id, SubCategoryDTO dto) {
         var categoryType = findById(id);
-        categoryType.update(new SubCategory(id, dto.name(), dto.categoryId()));
+        categoryType.update(new SubCategory(id, dto.title(), dto.categoryId()));
         return categoryType;
     }
 

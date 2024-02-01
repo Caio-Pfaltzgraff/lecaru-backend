@@ -1,6 +1,7 @@
 package com.lecaru.controller.v1;
 
 import com.lecaru.domain.model.subcategory.SubCategory;
+import com.lecaru.domain.model.subcategory.SubCategoryAdminReadDTO;
 import com.lecaru.domain.model.subcategory.SubCategoryDTO;
 import com.lecaru.service.SubCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/subcategories")
 @Tag(name = "V1 SubCategory Controller", description = "Rest-Controller for subcategories access.")
@@ -28,8 +31,11 @@ public class SubCategoriesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation completed successfully")
     })
-    public ResponseEntity<List<SubCategory>> getAll() {
-        return ResponseEntity.ok(subCategoryService.findAll());
+    public ResponseEntity<List<SubCategoryAdminReadDTO>> getAll() {
+        var list = new ArrayList<SubCategoryAdminReadDTO>();
+        subCategoryService.findAll().forEach((subCategory) -> list.add(new SubCategoryAdminReadDTO((subCategory.getId()), subCategory.getTitle(), subCategory.getCategoryId())));
+
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")

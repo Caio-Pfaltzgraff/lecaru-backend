@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record SubCategoryDTO(
         Long id,
         @NotBlank
-        String name,
+        String title,
         @NotNull
         Long categoryId
 ) {
