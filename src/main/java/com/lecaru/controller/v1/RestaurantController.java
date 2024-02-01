@@ -1,6 +1,7 @@
 package com.lecaru.controller.v1;
 
 import com.lecaru.domain.model.restaurant.Restaurant;
+import com.lecaru.domain.model.restaurant.dto.RestaurantAdminReadDTO;
 import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
 import com.lecaru.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/restaurants")
 @Tag(name = "V1 Restaurants Controller", description = "Admin Restaurant Access Controller.")
@@ -30,8 +33,9 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation completed successfully")
     })
-    public ResponseEntity<List<Restaurant>> getAll() {
-        var list = restaurantService.findAll();
+    public ResponseEntity<List<RestaurantAdminReadDTO>> getAll() {
+        var list = new ArrayList<RestaurantAdminReadDTO>();
+        restaurantService.findAll().forEach((restaurant) -> list.add(new RestaurantAdminReadDTO(restaurant.getId(), restaurant.getTitle())));
         return ResponseEntity.ok(list);
     }
 
