@@ -38,9 +38,9 @@ public class StartApp implements CommandLineRunner {
                 LocalTime.of(23, 0),
                 LocalTime.of(18, 0),
                 LocalTime.of(0, 0),
-                "(21) 99090-9090",
+                "99090-9090",
                 new AddressDTO(
-                        "22640102",
+                        "22640-102",
                         "Avenida das Américas",
                         "Barra da Tijuca",
                         "Rio de Janeiro",
@@ -49,7 +49,13 @@ public class StartApp implements CommandLineRunner {
                         4666
                 ));
         service.save(restaurant);
-        var type = subCategoryService.save(new SubCategoryDTO(null,"Bovinas", 1L)).toDTO();
+        var subcategory = subCategoryService.save(new SubCategoryDTO(null,"Bovinas", 1L)).toDTO();
+        var subcategory2 = subCategoryService.save(new SubCategoryDTO(null,"Suinas", 1L));
+        var subcategory3 = subCategoryService.save(new SubCategoryDTO(null,"Brownies", 6L));
+        var subcategory4 = subCategoryService.save(new SubCategoryDTO(null,"Pastéis", 2L));
+        var subcategory5 = subCategoryService.save(new SubCategoryDTO(null,"Lasanhas", 3L));
+        var subcategory6 = subCategoryService.save(new SubCategoryDTO(null,"Arroz", 4L));
+        var subcategory7 = subCategoryService.save(new SubCategoryDTO(null,"Sucos", 5L));
         var product = productService.save(new ProductDTO(
                 "Filé Mignon",
                 "Filé Mignon com fritas e arroz a piamontese",
@@ -58,7 +64,7 @@ public class StartApp implements CommandLineRunner {
                 2,
                 new BigDecimal("60.00"),
                 "Carnes",
-                type.id()
+                subcategory.id()
         ));
         var product2 = productService.save(new ProductDTO(
                 "Filé de Frango",
@@ -68,7 +74,7 @@ public class StartApp implements CommandLineRunner {
                 2,
                 new BigDecimal("60.00"),
                 "Carnes",
-                type.id()
+                subcategory.id()
         ));
         System.out.println("---------------------------------------------");
         System.out.println(product.toString());
