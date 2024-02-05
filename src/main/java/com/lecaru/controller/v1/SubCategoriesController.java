@@ -33,7 +33,10 @@ public class SubCategoriesController {
     })
     public ResponseEntity<List<SubCategoryAdminReadDTO>> getAll() {
         var list = new ArrayList<SubCategoryAdminReadDTO>();
-        subCategoryService.findAll().forEach((subCategory) -> list.add(new SubCategoryAdminReadDTO((subCategory.getId()), subCategory.getTitle(), subCategory.getCategoryId())));
+        for(SubCategory subCategory: subCategoryService.findAll()) {
+            list.add(new SubCategoryAdminReadDTO(subCategory.getId(), subCategory.getTitle(), subCategory.getCategoryId()));
+        }
+//        subCategoryService.findAll().forEach((subCategory) -> list.add(new SubCategoryAdminReadDTO((subCategory.getId()), subCategory.getTitle(), subCategory.getCategoryId())));
 
         return ResponseEntity.ok(list);
     }
@@ -82,6 +85,7 @@ public class SubCategoriesController {
     @Operation(summary = "Delete SubCategory", description = "Delete a registered SubCategory")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "SubCategory deleted successfully"),
+            @ApiResponse(responseCode = "409", description = "SubCategory cannot be deleted"),
             @ApiResponse(responseCode = "404", description = "SubCategory not found")
     })
     public ResponseEntity<Void> deleteCategoryType(@PathVariable Long id) {
