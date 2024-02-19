@@ -66,6 +66,7 @@ public class StartApp implements CommandLineRunner {
                 new BigDecimal("60.00"),
                 "Carnes",
                 subcategory.id()
+                subcategory.id()
         ));
         productService.save(new ProductCreateDTO(
                 "Filé de Frango",
@@ -75,6 +76,7 @@ public class StartApp implements CommandLineRunner {
                 2,
                 new BigDecimal("60.00"),
                 "Carnes",
+                subcategory.id()
                 subcategory.id()
         ));
         System.out.println("---------------------------------------------");
