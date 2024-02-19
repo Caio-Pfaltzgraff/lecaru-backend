@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,18 +30,21 @@ public class RestaurantService implements CrudService<Restaurant, RestaurantCrea
     }
 
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public Restaurant save(RestaurantCreateDTO restaurant) {
         return restaurantRepository.save(new Restaurant(restaurant));
     }
-
+    
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public Restaurant update(UUID id, RestaurantCreateDTO restaurantDTO) {
         var restaurant = findById(id);
         restaurant.update(new Restaurant(restaurantDTO));
         return restaurant;
     }
-
+    
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(UUID id) {
         var restaurant = findById(id);
         restaurantRepository.delete(restaurant);
