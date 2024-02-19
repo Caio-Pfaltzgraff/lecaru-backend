@@ -1,18 +1,19 @@
 package com.lecaru;
 
-import com.lecaru.domain.model.subcategory.SubCategoryDTO;
-import com.lecaru.domain.model.product.ProductDTO;
-import com.lecaru.domain.model.restaurant.dto.AddressDTO;
-import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
-import com.lecaru.service.ProductService;
-import com.lecaru.service.RestaurantService;
-import com.lecaru.service.SubCategoryService;
+import java.math.BigDecimal;
+import java.time.LocalTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.time.LocalTime;
+import com.lecaru.domain.model.product.ProductCreateDTO;
+import com.lecaru.domain.model.restaurant.dto.AddressCreateDTO;
+import com.lecaru.domain.model.restaurant.dto.RestaurantCreateDTO;
+import com.lecaru.domain.model.subcategory.SubCategoryDTO;
+import com.lecaru.service.ProductService;
+import com.lecaru.service.RestaurantService;
+import com.lecaru.service.SubCategoryService;
 
 @Component
 public class StartApp implements CommandLineRunner {
@@ -28,7 +29,7 @@ public class StartApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        var restaurant = new RestaurantDTO(
+        var restaurant = new RestaurantCreateDTO(
                 "Barra da Tijuca",
                 LocalTime.of(11, 0),
                 LocalTime.of(15, 0),
@@ -38,9 +39,9 @@ public class StartApp implements CommandLineRunner {
                 LocalTime.of(23, 0),
                 LocalTime.of(18, 0),
                 LocalTime.of(0, 0),
-                "(21) 99090-9090",
-                new AddressDTO(
-                        "22640102",
+                "99090-9090",
+                new AddressCreateDTO(
+                        "22640-102",
                         "Avenida das Américas",
                         "Barra da Tijuca",
                         "Rio de Janeiro",
@@ -49,8 +50,14 @@ public class StartApp implements CommandLineRunner {
                         4666
                 ));
         service.save(restaurant);
-        var type = subCategoryService.save(new SubCategoryDTO(null,"Bovinas", 1L)).toDTO();
-        var product = productService.save(new ProductDTO(
+        var subcategory = subCategoryService.save(new SubCategoryDTO(null,"Bovinas", 1L)).toDTO();
+        subCategoryService.save(new SubCategoryDTO(null,"Suinas", 1L));
+        subCategoryService.save(new SubCategoryDTO(null,"Brownies", 6L));
+        subCategoryService.save(new SubCategoryDTO(null,"Pastéis", 2L));
+        subCategoryService.save(new SubCategoryDTO(null,"Lasanhas", 3L));
+        subCategoryService.save(new SubCategoryDTO(null,"Arroz", 4L));
+        subCategoryService.save(new SubCategoryDTO(null,"Sucos", 5L));
+        var product = productService.save(new ProductCreateDTO(
                 "Filé Mignon",
                 "Filé Mignon com fritas e arroz a piamontese",
                 "src/assets/products/file-mignon.png",
@@ -58,9 +65,9 @@ public class StartApp implements CommandLineRunner {
                 2,
                 new BigDecimal("60.00"),
                 "Carnes",
-                type.id()
+                subcategory.id()
         ));
-        var product2 = productService.save(new ProductDTO(
+        productService.save(new ProductCreateDTO(
                 "Filé de Frango",
                 "Filé Mignon com fritas e arroz a piamontese",
                 "src/assets/products/file-mignon.png",
@@ -68,7 +75,7 @@ public class StartApp implements CommandLineRunner {
                 2,
                 new BigDecimal("60.00"),
                 "Carnes",
-                type.id()
+                subcategory.id()
         ));
         System.out.println("---------------------------------------------");
         System.out.println(product.toString());

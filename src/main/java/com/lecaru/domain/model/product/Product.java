@@ -1,14 +1,19 @@
 package com.lecaru.domain.model.product;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import com.lecaru.domain.model.subcategory.SubCategory;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity(name = "tb_products")
 @Data
@@ -29,7 +34,11 @@ public class Product {
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
 
-    public void update(ProductDTO dto, SubCategory subCategory) {
+    public ProductDTO toDTO() {
+        return new ProductDTO(id, title, description, photo, size, serving, price, category, subCategory);
+    }
+
+    public void update(ProductCreateDTO dto, SubCategory subCategory) {
         if(dto.title() != null) {
             this.title = dto.title();
         }

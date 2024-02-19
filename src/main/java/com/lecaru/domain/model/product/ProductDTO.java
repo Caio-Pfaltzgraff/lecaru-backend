@@ -1,23 +1,19 @@
 package com.lecaru.domain.model.product;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import com.lecaru.domain.model.subcategory.SubCategory;
 
 public record ProductDTO(
-        @NotBlank
-        String title,
-        String description,
-        @NotBlank
-        String photo,
-        Integer size,
-        Integer serving,
-        @NotNull
-        BigDecimal price,
-        @NotBlank
-        String category,
-        @NotNull
-        Long subCategoryId
+  UUID id,
+  String title,
+  String description,
+  String photo,
+  Integer size,
+  Integer serving,
+  BigDecimal price,
+  String category,
+  SubCategory subCategory
 ) {
 }

@@ -1,18 +1,19 @@
 package com.lecaru.service;
 
-import com.lecaru.domain.model.product.Product;
-import com.lecaru.domain.model.product.ProductDTO;
-import com.lecaru.domain.repository.ProductRepository;
-import com.lecaru.infra.exception.NotFoundException;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import com.lecaru.domain.model.product.Product;
+import com.lecaru.domain.model.product.ProductCreateDTO;
+import com.lecaru.domain.repository.ProductRepository;
+import com.lecaru.infra.exception.NotFoundException;
 
 @Service
-public class ProductService implements CrudService<Product, ProductDTO, UUID>{
+public class ProductService implements CrudService<Product, ProductCreateDTO, UUID>{
 
     @Autowired
     private ProductRepository productRepository;
@@ -31,14 +32,14 @@ public class ProductService implements CrudService<Product, ProductDTO, UUID>{
     }
 
     @Transactional
-    public Product save(ProductDTO dto) {
+    public Product save(ProductCreateDTO dto) {
         var categoryType = subCategoryService.findById(dto.subCategoryId());
         var product = new Product(null, dto.title(), dto.description(), dto.photo(), dto.size(), dto.serving(), dto.price(), dto.category(), categoryType);
         return productRepository.save(product);
     }
 
     @Transactional
-    public Product update(UUID id, ProductDTO dto) {
+    public Product update(UUID id, ProductCreateDTO dto) {
         var productUpdated = findById(id);
         var categoryType = subCategoryService.findById(dto.subCategoryId());
         productUpdated.update(dto, categoryType);

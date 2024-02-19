@@ -1,6 +1,7 @@
 package com.lecaru.domain.model.restaurant;
 
-import com.lecaru.domain.model.restaurant.dto.AddressDTO;
+import com.lecaru.domain.model.restaurant.dto.AddressCreateDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class Address {
     @Column(unique = true)
     private Integer number;
 
-    public Address(AddressDTO address) {
+    public Address(AddressCreateDTO address) {
         this.cep = address.cep();
         this.logradouro = address.logradouro();
         this.bairro = address.bairro();

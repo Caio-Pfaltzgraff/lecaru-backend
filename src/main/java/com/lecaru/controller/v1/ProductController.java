@@ -1,22 +1,32 @@
 package com.lecaru.controller.v1;
 
-import com.lecaru.domain.model.product.Product;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.lecaru.domain.model.product.ProductAdminReadDTO;
+import com.lecaru.domain.model.product.ProductCreateDTO;
 import com.lecaru.domain.model.product.ProductDTO;
 import com.lecaru.service.ProductService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 @RestController
@@ -46,8 +56,10 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid Argument"),
             @ApiResponse(responseCode = "404", description = "Restaurant not found")
     })
-    public ResponseEntity<Product> getProduct(@PathVariable UUID id) {
-        return ResponseEntity.ok(productService.findById(id));
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable UUID id) {
+        var product = productService.findById(id);
+
+        return ResponseEntity.ok(product.toDTO());
     }
 
     @PostMapping
@@ -57,13 +69,13 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Product not registered successfully"),
             @ApiResponse(responseCode = "409", description = "Data integrity violation error")
     })
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid ProductCreateDTO dto) {
         var product = productService.save(dto);
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(product.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(product);
+        return ResponseEntity.created(location).body(product.toDTO());
     }
 
     @PutMapping("/{id}")
@@ -74,9 +86,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found"),
             @ApiResponse(responseCode = "409", description = "Data integrity violation error")
     })
-    public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable UUID id, @RequestBody @Valid ProductCreateDTO dto) {
         var productUpdated = productService.update(id, dto);
-        return ResponseEntity.ok(productUpdated);
+        return ResponseEntity.ok(productUpdated.toDTO());
     }
 
     @DeleteMapping("/{id}")

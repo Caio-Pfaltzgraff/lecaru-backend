@@ -1,13 +1,20 @@
 package com.lecaru.domain.model.restaurant;
 
+import java.time.LocalTime;
+import java.util.UUID;
+
+import com.lecaru.domain.model.restaurant.dto.AddressDTO;
+import com.lecaru.domain.model.restaurant.dto.RestaurantCreateDTO;
 import com.lecaru.domain.model.restaurant.dto.RestaurantDTO;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity(name = "tb_restaurants")
 @Data
@@ -32,7 +39,7 @@ public class Restaurant {
     @Embedded
     private Address address;
 
-    public Restaurant(RestaurantDTO restaurant) {
+    public Restaurant(RestaurantCreateDTO restaurant) {
         this.title = restaurant.title();
         this.lunchOpenWeekdays = restaurant.lunchOpenWeekdays();
         this.lunchCloseWeekdays = restaurant.lunchCloseWeekdays();
@@ -44,6 +51,18 @@ public class Restaurant {
         this.dinnerCloseWeekends = restaurant.dinnerCloseWeekends();
         this.telephone = restaurant.telephone();
         this.address = new Address(restaurant.address());
+    }
+
+    public RestaurantDTO toDTO() {
+        return new RestaurantDTO(
+            id, title, 
+            lunchOpenWeekdays, lunchCloseWeekdays, lunchOpenWeekends, lunchCloseWeekends, 
+            dinnerOpenWeekdays, dinnerCloseWeekdays, dinnerOpenWeekends, dinnerCloseWeekends, 
+            new AddressDTO(
+                address.getCep(), address.getLogradouro(), address.getBairro(), 
+                address.getLocalidade(), address.getUf(),address.getDdd(), address.getNumber()
+            )
+        );
     }
 
     public void update(Restaurant restaurant) {
