@@ -42,15 +42,8 @@ public class SubCategoriesController {
     })
     public ResponseEntity<List<SubCategoryAdminReadDTO>> getAll() {
         var list = new ArrayList<SubCategoryAdminReadDTO>();
-<<<<<<< HEAD
         
        subCategoryService.findAll().forEach((subCategory) -> list.add(new SubCategoryAdminReadDTO((subCategory.getId()), subCategory.getTitle(), subCategory.getCategoryId())));
-=======
-        for(SubCategory subCategory: subCategoryService.findAll()) {
-            list.add(new SubCategoryAdminReadDTO(subCategory.getId(), subCategory.getTitle(), subCategory.getCategoryId()));
-        }
-//        subCategoryService.findAll().forEach((subCategory) -> list.add(new SubCategoryAdminReadDTO((subCategory.getId()), subCategory.getTitle(), subCategory.getCategoryId())));
->>>>>>> 4cb9d6e1ed6c33f12eb116a1c88d88c94bff2394
 
         return ResponseEntity.ok(list);
     }
