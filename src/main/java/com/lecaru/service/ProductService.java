@@ -1,5 +1,6 @@
 package com.lecaru.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +25,9 @@ public class ProductService implements CrudService<Product, ProductCreateDTO, UU
 
     @Transactional(readOnly = true)
     public List<Product> findAll() {
-        return productRepository.findAll();
+        var listProduct = productRepository.findAll();
+        var orderedList = listProduct.stream().sorted(Comparator.comparing(Product::getTitle)).toList();
+        return orderedList;
     }
 
     @Transactional(readOnly = true)

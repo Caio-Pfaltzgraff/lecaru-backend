@@ -1,5 +1,6 @@
 package com.lecaru.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,9 @@ public class RestaurantService implements CrudService<Restaurant, RestaurantCrea
 
     @Transactional(readOnly = true)
     public List<Restaurant> findAll() {
-        return restaurantRepository.findAll();
+        var listRestaurant = restaurantRepository.findAll();
+        var orderedList = listRestaurant.stream().sorted(Comparator.comparing(Restaurant::getTitle)).toList();
+        return orderedList;
     }
 
     @Transactional(readOnly = true)

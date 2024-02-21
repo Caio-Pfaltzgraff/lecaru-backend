@@ -1,5 +1,6 @@
 package com.lecaru.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,24 @@ import com.lecaru.infra.exception.NotFoundException;
 public class SubCategoryService implements CrudService<SubCategory, SubCategoryDTO, Long>{
 
     @Autowired
-    private SubCategoryRepository categoryTypeRepository;
+    private SubCategoryRepository subCategoryRepository;
 
     @Transactional(readOnly = true)
     public List<SubCategory> findAll() {
-        return categoryTypeRepository.findAll();
+        var listSubcategory = subCategoryRepository.findAll();
+        var orderedList = listSubcategory.stream().sorted(Comparator.comparing(SubCategory::getTitle)).toList();
+        return orderedList;
     }
 
     @Transactional(readOnly = true)
     public SubCategory findById(Long id) {
-        return categoryTypeRepository.findById(id).orElseThrow(() -> new NotFoundException(SubCategory.class));
+        return subCategoryRepository.findById(id).orElseThrow(() -> new NotFoundException(SubCategory.class));
     }
 
     @Transactional
     @CacheEvict(value = "subcategory", allEntries = true)
     public SubCategory save(SubCategoryDTO dto) {
-        return categoryTypeRepository.save(new SubCategory(null, dto.title(), dto.categoryId()));
+        return subCategoryRepository.save(new SubCategory(null, dto.title(), dto.categoryId()));
     }
     
     @Transactional
@@ -46,6 +49,6 @@ public class SubCategoryService implements CrudService<SubCategory, SubCategoryD
     @CacheEvict(value = "subcategory", allEntries = true)
     public void delete(Long id) {
         var categoryType = findById(id);
-        categoryTypeRepository.delete(categoryType);
+        subCategoryRepository.delete(categoryType);
     }
 }
