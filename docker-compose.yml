@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: lecaru_api
+    image: bitnami/postgresql:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=lecaru
+      - POSTGRES_PASSWORD=lecaru
+      - POSTGRES_DB=lecaru_db

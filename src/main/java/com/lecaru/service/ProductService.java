@@ -47,8 +47,8 @@ public class ProductService implements CrudService<Product, ProductCreateDTO, UU
     @CacheEvict(value = "product", allEntries = true)
     public Product update(UUID id, ProductCreateDTO dto) {
         var productUpdated = findById(id);
-        var categoryType = subCategoryService.findById(dto.subCategoryId());
-        productUpdated.update(dto, categoryType);
+        var subcategory = subCategoryService.findById(dto.subCategoryId());
+        productUpdated.update(dto, subcategory);
         return productUpdated;
     }
     

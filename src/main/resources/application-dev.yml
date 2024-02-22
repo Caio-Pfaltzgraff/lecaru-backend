@@ -1,20 +1,20 @@
+server:
+  port: 8085
+
 spring:
   datasource:
-    url: jdbc:h2:mem:lecaru
+    url: jdbc:postgresql://localhost:5432/lecaru_db
     username: lecaru
-    password:
+    password: lecaru
+    driverClassName: org.postgresql.Driver
   jpa:
     show-sql: true
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    database:
+      database-plataform:  org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: false
-        web-allow-others: false
+  
