@@ -55,4 +55,8 @@ public class Address {
             this.number = address.number;
         }
     }
+
+    public String toCompleteAddressString() {
+        return logradouro + ", " + number + " - " + bairro + ", " + localidade + " - " + uf + ", " + cep;
+    }
 }
